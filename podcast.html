@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La IA Musical</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos personalizados para mantener la estética de literaturamusical.html */
+        .bg-custom {
+            /* Degradado de fondo similar al original */
+            background: linear-gradient(to bottom right, #083344, #0f766e, #065f46); 
+        }
+        .header-bg {
+            /* Degradado para el encabezado */
+            background: linear-gradient(to right, #042f4b, #067269);
+        }
+        /* Estilo para el efecto de hover en la tarjeta */
+        .podcast-card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+        }
+        .podcast-card {
+            transition: all 0.3s ease-in-out;
+        }
+        /* El efecto de zoom se mantiene solo en el div de la tarjeta */
+        .podcast-card:hover .podcast-img {
+            transform: scale(1.05);
+        }
+        .podcast-img {
+            transition: transform 0.5s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-custom text-white">
+    
+    <header class="header-bg py-8 px-4 border-b border-cyan-700">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-200 via-cyan-300 to-teal-400">
+                🎙️ Podcast de La Inteligencia Artificial
+            </h1>
+            <p class="text-lg md:text-xl text-cyan-100 mt-2">
+                Empieza a descubrir los audios donde la IA plantea diversas preguntas.
+            </p>
+            <a href="literaturamusical.html" class="mt-4 inline-block text-cyan-200 hover:text-yellow-400 font-semibold transition-colors">
+                ← Volver al Ranking
+            </a>
+        </div>
+    </header>
+    
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold mb-10 text-yellow-400 text-center border-b border-yellow-400/50 pb-2">
+            Episodios Disponibles
+        </h2>
+        
+        <div id="podcastList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
+        
+    </main>
+
+    <script>
+        // Los datos de los episodios (tomados de las canciones originales)
+        const podcastEpisodes = [
+            // --- EPISODIO DE INTRODUCCIÓN (ID 0) ---
+            {
+                id: 0,
+                title: "La literatura musical",
+                author: "Podcast IA",
+                // ¡IMPORTANTE! Cambia 'my_local_images/' por la ruta real de tu carpeta de imágenes.
+                image: "podcastimages/poesia.png", 
+                audioUrl: "https://drive.google.com/file/d/1CohZ4E4vBZYsg255_4yj-dQS3Ex79Veh/view?usp=drive_link", // Reemplaza con el enlace real
+                suggestedTitle: "¿Salvará la IA la poesía clásica?"
+            },
+            // --- 10 EPISODIOS ORIGINALES (ID 1-10) ---
+            {
+                id: 1,
+                title: "Veinte poemas de amor",
+                author: "Podcast IA",
+                image: "podcastimages/veintepoemasdeamor.png", 
+                audioUrl: "https://drive.google.com/file/d/1rDezgL9BLhX3x_u3WQnwIylyVQL3jraH/view?usp=drive_link", 
+                suggestedTitle: "Neruda y su éxtasis y desesperación en la naturaleza del cuerpo Amado"
+            },
+            {
+                id: 2,
+                title: "Romancero Gitano",
+                author: "Federico García Lorca",
+                image: "podcastimages/canciondelpirata.png",
+                audioUrl: "https://drive.google.com/file/d/1gjwNaLyF9pcyDi3hAnp8mC242AOSisWH/view?usp=drive_link", 
+                suggestedTitle: "Duende y Melodía: Lorca y el Romance de la Luna, Luna."
+            },
+            {
+                id: 3,
+                title: "Canción del Pirata",
+                author: "José de Espronceda",
+                image: "my_local_images/Gemini-Generated-Image-ymm9afymm9afymm9.png",
+                audioUrl: "https://drive.google.com/file/d/1FESYoCEEVHec7pt8qHd9TBGVx0HGMoor/view?usp=drive_link", 
+                suggestedTitle: "¡Con Diez Cañones por Banda!: La Épica Musical de un Pirata."
+            },
+            {
+                id: 4,
+                title: "Campos de Castilla",
+                author: "Antonio Machado",
+                image: "my_local_images/Gemini-Generated-Image-erfnvcerfnvcerfn.png",
+                audioUrl: "https://drive.google.com/file/d/17wJUWWeQXcOiGreNjGRvhu46dlrDUAVH/view?usp=drive_link", 
+                suggestedTitle: "El Olmo Seco y la Armonía: El Paisaje de Machado."
+            },
+            {
+                id: 5,
+                title: "Altazor",
+                author: "Vicente Huidobro",
+                image: "my_local_images/Barco-pirata.jpg",
+                audioUrl: "https://drive.google.com/file/d/1AcgtWTs8pOFsdRBvKBHisPX_HkXw2ORK/view?usp=drive_link", 
+                suggestedTitle: "Vanguardia Sonora: El Viaje de Altazor."
+            },
+            {
+                id: 6,
+                title: "Trilce",
+                author: "César Vallejo",
+                image: "my_local_images/Trilce.jpg",
+                audioUrl: "https://drive.google.com/file/d/1ArrRC6iAOXmFBsJUw5gMCRWfHLD_MIwx/view?usp=drive_link", 
+                suggestedTitle: "Vallejo en Melodía: El Primer Canto de Trilce."
+            },
+            {
+                id: 7,
+                title: "La Voz a Ti Debida",
+                author: "Pedro Salinas",
+                image: "my_local_images/imagen-salinas.jpg", // Nombre de archivo de ejemplo
+                audioUrl: "https://drive.google.com/file/d/17dRJL2X7fq5rlRn6ho-KsSETGs5Qkeb2/view?usp=drive_link",
+                suggestedTitle: "Amor Eterno y Sonido: La Balada de Salinas."
+            },
+            {
+                id: 8,
+                title: "Residencia en la Tierra",
+                author: "Pablo Neruda",
+                image: "my_local_images/Gemini-Generated-Image-z5c8kz5c8kz5c8kz.png",
+                audioUrl: "https://drive.google.com/file/d/1NtevvMlrWrlanbsIpIEpZYpf2fHNdfNC/view?usp=drive_link", 
+                suggestedTitle: "Walking Around: La Angustia Existencial con Ritmo."
+            },
+            {
+                id: 9,
+                title: "Poeta en Nueva York",
+                author: "Federico García Lorca",
+                image: "my_local_images/imagen-lorca-ny.jpg", // Nombre de archivo de ejemplo
+                audioUrl: "https://drive.google.com/file/d/1-9_6Om33P7uIMcHgNWYgws2zmHUeuqKB/view?usp=drive_link", 
+                suggestedTitle: "La Aurora y el Jazz: Lorca en la Gran Manzana."
+            },
+            {
+                id: 10,
+                title: "Marinero en Tierra",
+                author: "Rafael Alberti",
+                image: "my_local_images/imagen-alberti.jpg", // Nombre de archivo de ejemplo
+                audioUrl: "https://drive.google.com/file/d/1RoOZ6YiILZbmaQWX2-_4FGE_fuKyW1xB/view?usp=drive_link", 
+                suggestedTitle: "El Marinero Nostálgico: Melodías del Mediterráneo."
+            },
+            // --- 1 NUEVO EPISODIO EXTRA (ID 11) ---
+            {
+                id: 11,
+                title: "",
+                author: "Podcast IA",
+                image: "podcastimages/iafuturo.png", 
+                audioUrl: "https://open.spotify.com/episode/7hHJ1m90EjfzfLpYT1CVvp?si=v3AWrJmvTpmYHhK3wa0cQQ", 
+                suggestedTitle: "Entra y descubre una variedad de preguntas que nos plantea en el futuro la IA"
+            }
+        ];
+
+        function renderPodcastList() {
+            const listContainer = document.getElementById('podcastList');
+            let html = '';
+
+            podcastEpisodes.forEach((episode, index) => {
+                
+                // Variables de estilo y contenido para la tarjeta
+                let cardClasses = "podcast-card backdrop-blur-sm rounded-xl overflow-hidden shadow-2xl transition-all duration-300 ";
+                let titleClasses = "text-2xl font-bold mb-2 leading-snug transition-colors";
+                let labelClasses = "text-sm font-light text-yellow-300 mb-1";
+                let labelText = `Episodio #${episode.id}`;
+                let originalWorkText; // Variable para el contenido del párrafo inferior
+                
+                // Variable para el texto y el icono del botón de audio (MODIFICACIÓN)
+                let audioButtonText = 'Escuchar Audio'; // Texto por defecto
+                // Icono de Play por defecto
+                let audioIconPath = 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z'; 
+
+                if (episode.id >= 11) {
+                    // Estilos llamativos para "Podcast Extra" (11)
+                    cardClasses += "bg-purple-900/50 border border-yellow-500/50 hover:shadow-yellow-400/50";
+                    labelClasses = "text-sm font-bold text-red-400 mb-1 border-b border-red-400/50 pb-1";
+                    labelText = '🔥 PODCAST EXTRA:';
+                    titleClasses += " text-yellow-300";
+                    
+                    // MODIFICACIÓN SOLICITADA: solo título y autor
+                    originalWorkText = `${episode.title} (${episode.author})`;
+                    
+                    if (episode.id === 11) {
+                        // **CAMBIO SOLICITADO:** Cambiar texto e icono para el episodio 11
+                        audioButtonText = 'ir a spotify';
+                        // Icono de música/altavoz para el episodio 11
+                        audioIconPath = 'M12 3a9 9 0 100 18 9 9 0 000-18zm-2 13h-1.5v-6h1.5v6zm3 0h-1.5v-8h1.5v8zm3 0h-1.5v-4h1.5v4z'; 
+                    }
+                    
+                } else {
+                    // Estilos Originales y Presentación (0-10)
+                    cardClasses += "bg-cyan-900/50 border border-cyan-700/50 hover:shadow-cyan-400/30";
+                    
+                    // CONTENIDO ORIGINAL: con la etiqueta "Obra Original:"
+                    originalWorkText = `Obra Original: ${episode.title} (${episode.author})`;
+
+                    if (episode.id === 0) {
+                        // Estilo especial para la Presentación (ID 0)
+                        labelText = '🎙️ PRESENTACIÓN';
+                        labelClasses = "text-sm font-bold text-teal-300 mb-1";
+                        cardClasses = cardClasses.replace("bg-cyan-900/50", "bg-teal-900/50");
+                        titleClasses = 'text-2xl font-bold mb-2 leading-snug text-cyan-300';
+                    } else {
+                        // Episodios estándar (1-10)
+                        labelText = `Episodio #${episode.id}`;
+                    }
+                }
+
+                html += `
+                    <div class="${cardClasses}">
+                        <div class="block">
+                            <div class="overflow-hidden">
+                                <img src="${episode.image}" alt="Portada de ${episode.title}" 
+                                     class="podcast-img w-full h-48 object-cover" />
+                            </div>
+                            <div class="p-6">
+                                <p class="${labelClasses}">
+                                    ${labelText}
+                                </p>
+                                <h3 class="${titleClasses}">
+                                    ${episode.suggestedTitle}
+                                </h3>
+                                <p class="text-cyan-200 text-base">${originalWorkText}</p>
+                                
+                                <a href="${episode.audioUrl}" target="_blank" rel="noopener noreferrer" class="mt-4 flex items-center justify-between group">
+                                    <span class="text-teal-400 font-semibold flex items-center gap-2 group-hover:text-yellow-300 transition-colors">
+                                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                            <path d="${audioIconPath}"/>
+                                        </svg>
+                                        ${audioButtonText}
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            listContainer.innerHTML = html;
+        }
+
+        // Ejecutar la renderización al cargar la página
+        window.onload = renderPodcastList;
+    </script>
+</body>
+</html>
