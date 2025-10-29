@@ -354,8 +354,7 @@
                 audioPlayer.play().catch(error => {
                     // Manejar error de reproducción (a menudo causado por políticas de autoplay)
                     console.error("Error al intentar reproducir audio:", error);
-                    alert("Para evitar políticas de reproducción automática, podría necesitar iniciar la reproducción manualmente.");
-                    resetPlayButton(songId); 
+                                      resetPlayButton(songId); 
                 });
                 
                 markAsListened(songId); // Marcar como escuchado inmediatamente
@@ -578,4 +577,5 @@
         }
     </script>
 </body>
+
 </html>
